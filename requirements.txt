@@ -5,3 +5,4 @@ Flask-SQLAlchemy>=3.0
 SQLAlchemy>=1.4
 Passlib>=1.7.4
 Email-Validator>=2.2.0
+Gunicorn>=22.0.0
