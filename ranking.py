@@ -50,7 +50,6 @@ def remove(list, user):
 
 def rank(routes, config):
     routes_orig = [sorted(list(r), reverse=True) for r in routes]
-    routes = map(list, routes_orig)
     combined = merge(*routes)
 
     global_prizes = [i.user for i in combined[:config['GLOBAL_PRIZES']]]

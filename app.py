@@ -189,7 +189,7 @@ def delete_account():
     users.db.session.delete(g.user)
     users.db.session.commit()
     del session['user_id']
-    session['csrf_token'] = os.urandom(8).encode('hex')
+    session['csrf_token'] = os.urandom(8).hex()
     flash(u'Cuenta de usuario borrada')
     return redirect(url_for('index'))
 
@@ -222,7 +222,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session['csrf_token'] = os.urandom(8).encode('hex')
+    session['csrf_token'] = os.urandom(8).hex()
     if 'user_id' in session:
         del session['user_id']
         flash(u'Has cerrado tu sesión')
