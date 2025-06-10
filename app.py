@@ -17,7 +17,7 @@
 
 import random, os, os.path
 from flask import Flask, request, session, g, render_template, flash, redirect, url_for
-from wtforms import Form, BooleanField, TextField, PasswordField, validators
+from wtforms import Form, BooleanField, StringField, PasswordField, validators
 import sqlalchemy.exc
 
 import users
@@ -95,18 +95,18 @@ def page_not_found(e):
 
 class BaseProfileForm(Form):
     password2 = PasswordField(u'Repite la contraseña')
-    pubname = TextField(u'Nombre público', [validators.Length(min=1, max=30,
+    pubname = StringField(u'Nombre público', [validators.Length(min=1, max=30,
         message=u'El nombre debe tener entre 1 y 30 caracteres')])
-    email = TextField(u'Email', [
+    email = StringField(u'Email', [
         validators.Email(message=u'Email no válido'),
         validators.Length(max=60, message=u'La longitud máxima del e-mail es de 60 caracteres')
     ])
     if app.config['USE_SEAT']:
-        seat = TextField(u'Puesto en la party', [validators.Length(min=3, max=30,
+        seat = StringField(u'Puesto en la party', [validators.Length(min=3, max=30,
             message=u'El puesto debe tener entre 3 y 30 caracteres')])
 
 class ProfileForm(BaseProfileForm):
-    username = TextField(u'Nombre de usuario', [validators.Optional()])
+    username = StringField(u'Nombre de usuario', [validators.Optional()])
     password = PasswordField(u'Contraseña', [
         validators.Optional(),
         validators.EqualTo('password2', message=u'Las contraseñas no coinciden'),
@@ -114,15 +114,15 @@ class ProfileForm(BaseProfileForm):
     ])
 
 class RegistrationForm(BaseProfileForm):
-    username = TextField(u'Nombre de usuario', [validators.Length(min=2, max=30,
+    username = StringField(u'Nombre de usuario', [validators.Length(min=2, max=30,
         message=u'El nombre de usuario debe tener entre 2 y 30 caracteres')])
     password = PasswordField(u'Contraseña', [
-        validators.Required(message=u'Debes introducir una contraseña'),
+        validators.InputRequired(message=u'Debes introducir una contraseña'),
         validators.EqualTo('password2', message=u'Las contraseñas no coinciden'),
         validators.Length(min=6, message=u'La contraseña debe tener como mínimo 6 caracteres')
     ])
     accept_rules = BooleanField(u'He leído y acepto las bases', [
-        validators.Required(message=u'Debes aceptar las bases')])
+        validators.InputRequired(message=u'Debes aceptar las bases')])
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -194,7 +194,7 @@ def delete_account():
     return redirect(url_for('index'))
 
 class LoginForm(Form):
-    username = TextField(u'Nombre de usuario')
+    username = StringField(u'Nombre de usuario')
     password = PasswordField(u'Contraseña')
 
 @app.route('/login', methods=['POST'])
@@ -250,7 +250,7 @@ def setup_tasks():
             return redirect(url_for('index'))
 
     if 'csrf_token' not in session:
-        session['csrf_token'] = os.urandom(8).encode('hex')
+        session['csrf_token'] = os.urandom(8).hex()
 
     g.user = None
 

@@ -19,8 +19,6 @@ import os.path, runpy
 from datetime import datetime
 
 from flask import Blueprint, request, session, g, render_template, redirect, flash, url_for, make_response
-from jinja2 import FileSystemLoader
-from werkzeug import cached_property
 
 from levels import routes as _routes
 from ranking import get_solvers
@@ -234,10 +232,6 @@ class Level(Blueprint):
         else:
             return None
 
-    #@cached_property
-    #def jinja_loader(self):
-        #return FileSystemLoader([levels_root, app_templates])
-
     def __str__(self):
         return "<Level %d.%s '%s'>"%(self.number, self.name, self.title)
 
@@ -277,6 +271,6 @@ def autosolve(app):
 
 if __name__ == '__main__':
     for route in routes:
-        print route
+        print(route)
         for level in route.levels:
-            print level
+            print(level)

@@ -155,17 +155,17 @@ if __name__ == "__main__":
     app.test_request_context().push()
 
     grank, rrank = get_ranking(app.config)
-    print "Global Ranking:"
+    print("Global Ranking:")
     for prize, score in grank:
         if prize is not None:
-            print "[%d] %s"%(prize, score.user.pubname)
+            print("[%d] %s"%(prize, score.user.pubname))
         else:
-            print "[ ] %s"%(score.user.pubname)
+            print("[ ] %s"%(score.user.pubname))
 
     for i,r in enumerate(rrank):
-        print "%s Ranking:"%level.routes[i].title
+        print("%s Ranking:"%level.routes[i].title)
         for prize, score in r:
             if prize is not None:
-                print "[%d] %s (%d, %r)"%(prize, score.user.pubname, score.score, score.timestamp)
+                print("[%d] %s (%d, %r)"%(prize, score.user.pubname, score.score, score.timestamp))
             else:
-                print "[ ] %s (%d, %r)"%(score.user.pubname, score.score, score.timestamp)
+                print("[ ] %s (%d, %r)"%(score.user.pubname, score.score, score.timestamp))
